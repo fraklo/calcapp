@@ -1,0 +1,77 @@
+/* ========================================================================= */
+/* Buttons
+/* ========================================================================= */
+
+.btn {
+  border-radius: $btn-radius;
+  border: $btn-border;
+  color: $btn-color;
+  cursor: pointer;
+  display: block;
+  font-size: $btn-font-size;
+  height: $btn-height;
+  line-height: $btn-height;
+  padding: 0 $btn-padding;
+  text-align: center;
+  text-indent: 0;
+  text-transform: capitalize;
+  transition: $btn-transition;
+  user-select: none;
+  vertical-align: middle;
+  width: 100%;
+  &.disabled {
+    background-color: $medium;
+    background-image: none;
+    border-color: #ccc;
+    box-shadow: none;
+    color: lighten($medium, 15%);
+    cursor: default;
+    &:hover {
+      background-color: $medium;
+      background-image: none;
+      border-color: #ccc;
+      box-shadow: none;
+      color: lighten($medium, 15%);
+      cursor: default;
+    }
+  }
+}
+
+.inline .btn, .btn.inline {
+  display: inline-block;
+  width: auto;
+  white-space: nowrap;
+}
+
+input + .btn.inline, .inline input + .btn {
+  margin-left: -1px;
+}
+
+/* ========================================================================= */
+/* This forms the base for the buttons
+/* It will be used to create the button classes below
+/* ========================================================================= */
+@mixin btn-base($bg-color, $color: #fff) {
+  background-color: $bg-color;
+  &:hover, &:focus, &:active, &.active {
+    background-color: lighten($bg-color,5%);
+    color: $color;
+  }
+
+  &.disabled:hover, &.disabled:focus, &.disabled:active, &.disabled:visited, &.disabled.active, &[disabled]:hover, &[disabled]:focus, &[disabled]:active, &[disabled]:visited, &[disabled].active, fieldset[disabled] &:hover, fieldset[disabled] &:focus, fieldset[disabled] &:active, fieldset[disabled] &.active {
+    background-color: $medium;
+    color: lighten($medium, 15%);
+    cursor: default;
+  }
+}
+
+.btn-clear {
+  @include btn-base(#fff);
+  border-color: $medium;
+  color: darken($medium, 15%) !important;
+  &:hover {
+    color: $dark !important;
+    border-color: $dark;
+  }
+}
+

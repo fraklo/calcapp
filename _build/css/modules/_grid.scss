@@ -1,0 +1,59 @@
+/* ========================================================================= */
+/* Grid
+/* ========================================================================= */
+
+@mixin row($width: 100%) {
+  display: table;
+  height: auto;
+  float: none;
+  width: $width;
+
+  //Media Query
+  @media #{$tablet} {
+    clear: none;
+    width: 100%;
+  }
+  @media #{$phone} {
+    margin: 0 0;
+  }
+}
+
+@mixin cols-($width, $break: $tablet) {
+  @if $width == 16% {
+    $width: 16.666%;
+  } @else if $width == 33% {
+    $width: 33.333%;
+  } @else if $width == 66% {
+    $width: 66.666%;
+  }
+  box-sizing: border-box;
+  float: left;
+  width: $width;
+
+  //Media Query
+  @media #{$break} {
+    clear: none;
+    width: 100%;
+  }
+}
+
+@mixin va-cols-($width, $break: $tablet) {
+  @if $width == 16% {
+    $width: 16.666%;
+  } @else if $width == 33% {
+    $width: 33.333%;
+  } @else if $width == 66% {
+    $width: 66.666%;
+  }
+  box-sizing: border-box;
+  display: inline-block;
+  vertical-align: middle;
+  width: $width;
+
+  //Media Query
+  @media #{$break} {
+    clear: none;
+    width: 100%;
+  }
+}
+

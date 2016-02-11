@@ -1,0 +1,76 @@
+/* ========================================================================= */
+/* Site wide variables
+/* ========================================================================= */
+
+// Example - colors
+$dark: #444;
+$medium: #D2D2D2;
+$light: #C2DCDD;
+
+$primary: #5C4A9D;
+$secondary: #426CB4;
+$gray: rgba(123, 133, 135, 0.5);
+$green: #86bf48;
+$yellow: #eae71c;
+
+//Keep for error/success
+// $green: #3CCE7B;
+$red: #e62333;
+
+// Transition
+$transition: all .25s ease;
+
+/* ========================================================================= */
+/* Button Variables
+/* ========================================================================= */
+
+$btn-color: #fff;
+$btn-color-active: #fff;
+$btn-font-size: 1.2rem;
+$btn-height: 2.85rem;
+$btn-padding: 1rem;
+$btn-radius: 2px;
+$btn-border: 1px solid rgba($dark, .3);
+$btn-transition: all .25s ease;
+
+
+/* ========================================================================= */
+/* Form Variables
+/* ========================================================================= */
+
+$input-border-color: rgba(#585d64, .10);
+$input-border-focus-color: $secondary;
+$input-border-style: solid;
+$input-border-width: 2px;
+$input-radius: 3px;
+$input-color: $dark;
+$input-bg: #fff;
+$input-height: 5.3rem;
+$input-font-size: 1.8rem;
+$input-transition: all .25s ease;
+$label-color: $medium;
+$placeholder: $gray;
+$placeholder-disabled: $light;
+
+$error: $red;
+$success: $green;
+
+/* ========================================================================= */
+/* Media Queries
+/* ========================================================================= */
+
+// <= 599px // 33.278rem
+$phone: "only screen and (max-width: 599px)";
+
+
+// <= 959px // 53.278rem
+$tablet: "only screen and (max-width: 959px)";
+
+
+// <= 1499px
+$desktop: "only screen and (max-width: 1499px)";
+
+
+// 1500px+
+$widescreen: "only screen and (min-width: 1500px)";
+

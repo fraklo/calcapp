@@ -1,0 +1,14 @@
+.calc-input{
+  .btn {
+    line-height: 12.5vh;
+    height: 12.5vh;
+    float: left;
+    width: 25%;
+    &:nth-of-type(4n) {
+
+    }
+  }
+  .btn.double {
+    width: 50%;
+  }
+}

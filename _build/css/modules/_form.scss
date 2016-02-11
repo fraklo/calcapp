@@ -1,0 +1,247 @@
+/* ========================================================================= */
+/* Form
+/* ========================================================================= */
+
+input, input[type="text"], input[type="password"], input[type="tel"], input[type="email"], textarea {
+  @include appearance(none);
+  @include placeholder($placeholder);
+  @extend .normal-text;
+  background-color: $input-bg;
+  border-radius: $input-radius;
+  border-color: $input-border-color;
+  border-style: $input-border-style;
+  border-width: $input-border-width;
+  color: $input-color;
+  font-family: inherit;
+  font-size: $input-font-size;
+  height: $input-height;
+  line-height: 1.5;
+  text-indent: 0.75rem;
+  transition: $input-transition;
+  vertical-align: middle;
+  width: 100%;
+  &:focus {
+    background-color: #fff;
+    border-color: $input-border-focus-color;
+    transition: $input-transition;
+  }
+  &:active {
+    color: $dark;
+  }
+  &.btn {
+    line-height: 1;
+  }
+  &.error {
+    border-color: $error;
+  }
+  &.disabled, &[disabled], &.default {
+    @include placeholder($placeholder-disabled);
+    background-color: $medium;
+    color: $light;
+  }
+}
+
+.inline input {
+  display: inline-block;
+  width: auto;
+}
+
+input[type=number], input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+label {
+  @extend .bold-text;
+  color: $label-color;
+  cursor: pointer;
+  display: block;
+  font-size: $input-font-size;
+  margin: 0 0 .25rem;
+  padding: 0;
+  width: 100%;
+  &.error {
+    color: $error;
+  }
+}
+
+.input-container {
+  height: $input-height;
+  overflow: hidden;
+  width: 100%;
+}
+
+select {
+  @include appearance(none);
+  background-color: $input-bg;
+  background-image: none;
+  border-radius: $input-radius;
+  border-style: $input-border-style;
+  border-width: $input-border-width;
+  box-shadow: none;
+  color: $medium;
+  display: block;
+  font-size: $input-font-size;
+  outline: 0 none;
+  padding: .5em 25% .5em .5em;
+  text-overflow: '';
+  width: 100%;
+  height: $input-height;
+  &:-moz-focusring, &:-moz-focusring:focus, &:-moz-focusring:active {
+    color: transparent;
+    text-shadow: 0 0 0 $dark;
+  }
+  &:focus {
+    background-color: #fff;
+    border-color: $input-border-focus-color;
+    transition: $input-transition;
+  }
+  &.error {
+    border-color: $error;
+  }
+  &.selected {
+    color: $dark;
+  }
+  option {
+    color: $dark;
+    &:-moz-focusring, &:-moz-focusring:focus, &:-moz-focusring:active {
+      color: transparent;
+      text-shadow: 0 0 0 $dark;
+    }
+    &.disabled, &[disabled] {
+      color: $medium;
+    }
+    &.default {
+      display: none;
+    }
+  }
+}
+
+textarea {
+  min-height: 14rem;
+  padding: .75em;
+  resize: none;
+  text-indent: 0;
+}
+
+.with-addon {
+  position: relative;
+  .append {
+    padding-right: 2em;
+  }
+  .input-container {
+    position: relative;
+  }
+  .input-addon {
+    box-shadow: none;
+    top: 0;
+    height: 100%;
+    line-height: 2;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    z-index: 0;
+  }
+  select + .input-addon {
+    background-color: $input-bg;
+    color: inherit;
+    width: 1.25em;
+  }
+  select:focus + .input-addon, .error + .input-addon {
+    border-width: $input-border-width $input-border-width $input-border-width 0;
+    border-style: solid solid solid none;
+    border-radius: $input-radius;
+  }
+  select:focus + .input-addon {
+    background-color: #fff;
+    border-color: $input-border-focus-color;
+    box-shadow: 0 2px 0px rgba(#000, .1) inset;
+  }
+  .error + .input-addon {
+    border-color: $error;
+  }
+}
+
+.input-addon .addon-arrow {
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid;
+  display: inline-block;
+  margin-left: 2px;
+  pointer-events: none;
+}
+
+.pend-group {
+  @include flex-container;
+  background-color: $input-bg;
+  input {
+    @include flex;
+    float: left;
+    width: auto;
+  }
+  span {
+    @include flex(0);
+    @extend .bold-text;
+    @extend input;
+    color: darken($light, 25%);
+    text-indent: 0;
+    width: auto;
+    &:before {
+      content:'';
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+    }
+    &.prepend {
+      border-right: $input-border-width solid transparent;
+      float: left;
+      padding-left: 1.36rem;
+    }
+    &.append {
+      border-left: $input-border-width solid transparent;
+      float: right;
+      padding-right: .68rem;
+    }
+  }
+}
+
+form {
+  .message {
+    @extend .bold-text;
+    border-radius: 4px 4px 0 0;
+    color: #fff;
+    left: -1px;
+    padding: 1rem 0;
+    position: absolute;
+    text-align: center;
+    top: -2rem;
+    width: calc(100% + 2px);
+  }
+  &.error .message, .error .message {
+    background-color: $error;
+    border-color: $error;
+    border-radius: $input-radius;
+    border-style: $input-border-style;
+    border-width: $input-border-width;
+  }
+  &.success .message, .success .message {
+    background-color: $success;
+    border-color: $success;
+    border-radius: $input-radius;
+    border-style: $input-border-style;
+    border-width: $input-border-width;
+  }
+}
+
+:invalid {
+  box-shadow: none;
+}
+
+:-moz-ui-invalid {
+  box-shadow:none;
+}
