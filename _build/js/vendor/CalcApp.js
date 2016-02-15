@@ -7,7 +7,8 @@
         activeOperation = false,
         currentResult = 0,
         activeNumber = false,
-        currentOperation = [];
+        currentOperation = [],
+        historyList = [];
 
 
     // Determine what operation needs to be performed
@@ -160,6 +161,9 @@
       resultDisplay.innerHTML = currentResult;
       if(isEquals) {
 
+        // store the current operation
+        updateHistory();
+
         // clear the current operation
         resetCalc();
       }
@@ -193,6 +197,29 @@
     }
 
 
+    // Updates the history element with the current operation
+    function updateHistory() {
+      var historyEl;
+
+      // Insert currentOperation into historlist for later retrieval
+      historyList.push(currentOperation);
+
+      // Create history element with operation display contents
+      historyEl = document.createElement('div');
+      historyEl.innerHTML = currentOperation.join(" ");
+
+      // Update operation display with id to pull operation from historylist
+      historyEl.setAttribute('data-history-id', historyList.length - 1);
+
+      // add click event handler
+      historyEl.addEventListener('click', historyClickHandler);
+
+      // insert operation display into calc history el
+      calc.getElementsByClassName('js_calc_history')[0]
+                                  .appendChild(historyEl);
+    }
+
+
     // Updates current operation
     // and displays new result
     function updateOperation(operation) {
@@ -215,27 +242,82 @@
     }
 
 
+    // Handles history element clicks
+    function historyClickHandler(evt) {
+      var el = evt.currentTarget,
+          historyOp = historyList[el.getAttribute('data-history-id')];
+
+      resetCalc(true);
+
+      operationDisplay.innerHTML = historyOp.join(" ");
+      currentOperation = historyOp;
+      historyBtnClickHandler();
+      calcTotal();
+    }
+
+
+    // Handles history button clicks
+    function historyBtnClickHandler() {
+      var el = calc.getElementsByClassName('js_calc_history_btn')[0],
+          calcHistory = calc.getElementsByClassName('js_calc_history')[0];
+      toggleClass(calcHistory, 'active');
+      toggleClass(el, 'active');
+    }
+
+
+    // Handles input button clicks
+    function inputBtnClickHandler(evt) {
+      var el = evt.currentTarget,
+          op;
+
+      if(op = el.getAttribute('data-operation')) {
+        handleOperation(op);
+      } else {
+        appendValue(el.getAttribute('data-value'));
+      }
+    }
+
+
     // Sets click handlers for js_calc_btn buttons
-    function setBtnListeners() {
+    function setInputBtnListeners() {
 
       // loop over all buttons
       for(var btn of calc.getElementsByClassName('js_calc_btn')) {
 
         // add click event handler
-        btn.addEventListener('click', function(e) {
-          var el = e.currentTarget,
-              op;
-          if(op = el.getAttribute('data-operation')) {
-            handleOperation(op);
-          } else {
-            appendValue(el.getAttribute('data-value'));
-          }
-        });
+        btn.addEventListener('click', inputBtnClickHandler);
       }
     }
 
 
+    // Sets click handler for js_calc_history_btn
+    function setHistoryBtnListener() {
+
+      // loop over all buttons
+      for(var btn of calc.getElementsByClassName('js_calc_history_btn')) {
+
+        // add click event handler
+        btn.addEventListener('click', historyBtnClickHandler);
+      }
+    }
+
+
+    function toggleClass(el, toggleClass) {
+      if(el.className.indexOf(toggleClass) < 0) {
+        el.className = el.className+" "+toggleClass;
+      } else {
+        el.className = el.className.replace(toggleClass, "").trim();
+      }
+    }
+
+
+    function init() {
+      setInputBtnListeners();
+      setHistoryBtnListener();
+    }
+
+
     // Start the show
-    setBtnListeners();
+    init();
   }
 }());
