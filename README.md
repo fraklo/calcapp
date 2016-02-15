@@ -1,1 +1,2 @@
 # calcapp
+JS excercise
