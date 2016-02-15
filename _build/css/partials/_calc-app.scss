@@ -1,3 +1,22 @@
-.calc-app {
+.calc {
+
+}
+
+.calc-btn {
+  @extend .btn;
+  @include btn-base(#fff);
+  border-color: $medium;
+  color: darken($medium, 15%) !important;
+  line-height: 12.5vh;
+  height: 12.5vh;
+  float: left;
+  width: 25%;
+  &:hover {
+    color: $dark !important;
+    border-color: $dark;
+  }
+  &.double {
+    width: 50%;
+  }
 }
 

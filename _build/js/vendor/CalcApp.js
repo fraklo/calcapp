@@ -1,142 +1,241 @@
 ;(function() {
   "use strict";
-  window.CalcApp = function(opts) {
-    var inputs = document.getElementsByClassName('calc-input')[0],
-        calcOperation = document.getElementsByClassName('calc-operation')[0],
-        calcResult = document.getElementsByClassName('calc-result')[0],
-        currentResult = 0,
+  window.CalcApp = function() {
+    var calc = document.getElementsByClassName('js_calc')[0],
+        operationDisplay = calc.getElementsByClassName('js_calc_operation')[0],
+        resultDisplay = calc.getElementsByClassName('js_calc_result')[0],
         activeOperation = false,
+        currentResult = 0,
+        activeNumber = false,
         currentOperation = [];
 
-    // Private Methods
-    function extendOptions(source, properties) {
-      var property;
 
-      for(property in properties) {
-        if(properties.hasOwnProperty(property)) {
-          source[property] = properties[property];
-        }
-      }
-      return source;
-    }
-
-
-    function handleOperation(operationType, calc, val) {
+    // Determine what operation needs to be performed
+    function handleOperation(operationType, val) {
       switch (operationType) {
         case "c" :
-          clearInput();
+          resetCalc(true);
           break;
         case "+-" :
-          invertValue();
+          plusMinus();
           break;
         case '%' :
           percentage();
           break;
         case '/' :
-          division(calc);
+          division(val);
           break;
         case 'x' :
-          multiplication(calc, val);
+          multiplication(val);
           break;
         case '-' :
-          subtraction(calc, val);
+          subtraction(val);
           break;
         case '+' :
-          addition(calc, val);
+          addition(val);
           break;
         case '=' :
-          getResult();
-          break;
-        default :
-          insertValue(operationType);
+          calcTotal(true);
           break;
       }
     }
 
 
-    function addition(calculate, val) {
-      if(activeOperation) {
-        calcResult.innerHTML = currentResult;
-      }
-      if(calculate) {
+    // Invert number
+    function plusMinus() {
+      resultDisplay.innerHTML = "-"+resultDisplay.innerHTML;
+    }
 
+
+    // Performs addition
+    function addition(val) {
+      if(val) {
+        // if value perform calculation
+        currentResult = currentResult + val;
       } else {
-        currentOperation.push(+calcResult.innerHTML);
-        activeOperation = '+';
+        // else only set operation
+        updateOperation("+");
       }
-
-      calcOperation.innerHTML += " "+calcResult.innerHTML+" + ";
-      currentResult += +calcResult.innerHTML;
     }
 
 
-    function getResult() {
-      currentOperation.push(+calcResult.innerHTML);
-      for(var i=0; i<=currentOperation.lenght; i++) {
-        if(isNaN(currentOperation[i])) {
-          handleOperation(currentOperation[i], currentOperation[i-1]);
+    // Performs Division
+    function division(val) {
+      if(val) {
+        // if value perform calculation
+        currentResult = currentResult / val;
+      } else {
+        // else only set operation
+        updateOperation("/");
+      }
+    }
+
+
+    // Performs Multiplication
+    function multiplication(val) {
+      if(val) {
+        // if value perform calculation
+        currentResult = currentResult * val;
+      } else {
+        // else only set operation
+        updateOperation("x");
+      }
+    }
+
+
+    // Performs Subtraction
+    function subtraction(val) {
+      if(val) {
+        // if value perform calculation
+        currentResult = currentResult - val;
+      } else {
+        // else only set operation
+        updateOperation("-");
+      }
+    }
+
+
+    // Handles percentage
+    function percentage() {
+      var percentageValue = +resultDisplay.innerHTML * .01;
+
+      if(currentResult > 0) {
+
+        // currentValue exists so calculate percentage off of that
+        percentageValue = percentageValue * currentResult;
+      }
+
+      resultDisplay.innerHTML =  percentageValue;
+    }
+
+
+    // Only allow decimal if no decimal present
+    function handleDecimal() {
+      if(resultDisplay.innerHTML.indexOf(".") < 0) {
+        resultDisplay.innerHTML = resultDisplay.innerHTML +".";
+      }
+    }
+
+
+    // Reset calculator state
+    function resetCalc(clearAll) {
+      operationDisplay.innerHTML = '';
+      currentOperation = [];
+      activeNumber = false;
+      if(clearAll) {
+
+        // clear button was pressed, clear all the things
+        // reset to intial state
+        activeOperation = false;
+        resultDisplay.innerHTML = 0;
+      } else {
+        activeOperation = '=';
+      }
+    }
+
+
+    // Calculates the total for the current operation
+    function calcTotal(isEquals) {
+      if(isEquals) {
+
+        // Equals button pressed, append current result value
+        // to currentOperation
+        currentOperation.push(+resultDisplay.innerHTML);
+      }
+      currentResult = currentOperation[0];
+
+      // Iterate through operations to calculate out
+      for(var i=1; i<=currentOperation.length; i++) {
+        if(isNaN(currentOperation[i]) &&
+            !isNaN(currentOperation[i+1])) {
+
+          // This is an operation and the next value is a number
+          // perform a calculation using the current operation
+          // and the next number to modify the current value
+          handleOperation(currentOperation[i], currentOperation[i+1]);
         }
       }
-    }
 
+      // Set result display to current result
+      resultDisplay.innerHTML = currentResult;
+      if(isEquals) {
 
-    function subtraction(calculate, val) {
-      activeOperation = "-";
-      if(!calculate) {
-        currentOperation.push(+calcResult.innerHTML);
-        currentOperation.push("-");
+        // clear the current operation
+        resetCalc();
       }
-      calcOperation.innerHTML += " "+calcResult.innerHTML+" - ";
-      currentResult -= +calcResult.innerHTML;
-      calcResult.innerHTML = currentResult;
     }
 
 
-    function clearInput() {
-      calcOperation.innerHTML = '';
-      calcResult.innerHTML = 0;
-      currentResult = 0;
-      currentOperation = [];
-      activeOperation = false;
-    }
+    // Add value to result display
+    function appendValue(value) {
+      if(activeOperation && activeOperation !== "=") {
 
-
-    function insertValue(value) {
-      var currentResult = calcResult.innerHTML;
-      if(activeOperation) {
+        // there is an active operation so update currentOperation with it
         currentOperation.push(activeOperation);
+
+        // reset activeOperation
         activeOperation = false;
-        calcResult.innerHTML = value;
-      } else if(value === '.') {
+      }
+      if(value === '.') {
         handleDecimal();
       } else {
-        if(currentResult === "0") {
-          calcResult.innerHTML = value;
+        if(!activeNumber) {
+
+          // Value replaces display result
+          resultDisplay.innerHTML = value;
+          activeNumber = true;
         } else {
-          calcResult.innerHTML = currentResult + value;
+
+          // Value is concatenated to display result
+          resultDisplay.innerHTML = resultDisplay.innerHTML + value;
         }
       }
     }
 
 
-    function handleDecimal() {
-      console.log('decimal');
+    // Updates current operation
+    // and displays new result
+    function updateOperation(operation) {
+      if(currentOperation.length < 1 ||
+          (!activeOperation && activeNumber)) {
+
+        // Just added some values so update operation and calc total
+        activeNumber = false;
+        currentOperation.push(+resultDisplay.innerHTML);
+        operationDisplay.innerHTML += " "+resultDisplay.innerHTML +
+                                      " "+operation+" ";
+        calcTotal();
+      } else {
+
+        // Change operation from previous value to current
+        operationDisplay.innerHTML = operationDisplay.innerHTML.slice(0, -2) +
+                                      " "+operation;
+      }
+      activeOperation = operation;
     }
 
 
+    // Sets click handlers for js_calc_btn buttons
     function setBtnListeners() {
-      var btns;
 
-      btns = inputs.getElementsByClassName('btn');
-      for(var btn of btns) {
+      // loop over all buttons
+      for(var btn of calc.getElementsByClassName('js_calc_btn')) {
+
+        // add click event handler
         btn.addEventListener('click', function(e) {
-          handleOperation(e.currentTarget.getAttribute('data-operation'));
+          var el = e.currentTarget,
+              op;
+          if(op = el.getAttribute('data-operation')) {
+            handleOperation(op);
+          } else {
+            appendValue(el.getAttribute('data-value'));
+          }
         });
       }
     }
 
 
+    // Start the show
     setBtnListeners();
   }
-
 }());

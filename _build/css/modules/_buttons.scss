@@ -65,13 +65,3 @@ input + .btn.inline, .inline input + .btn {
   }
 }
 
-.btn-clear {
-  @include btn-base(#fff);
-  border-color: $medium;
-  color: darken($medium, 15%) !important;
-  &:hover {
-    color: $dark !important;
-    border-color: $dark;
-  }
-}
-
