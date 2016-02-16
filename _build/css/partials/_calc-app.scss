@@ -1,18 +1,25 @@
+.calc {
+
+}
 .calc-btn {
   @extend .btn;
   @include btn-base(#fff);
-  border-color: $medium;
+  background-color: #fff;
   color: darken($medium, 15%) !important;
+  outline: 1px solid rgba($dark, .3);
   line-height: 14.5vh;
   height: 14.5vh;
   float: left;
   width: 25%;
   &:hover {
+    background-color: lighten($light, 22%);
     color: $dark !important;
-    border-color: $dark;
   }
   &.double {
     width: 50%;
+  }
+  &.bottom-row {
+    border-bottom: 1px solid rgba($dark, .3);
   }
 }
 
