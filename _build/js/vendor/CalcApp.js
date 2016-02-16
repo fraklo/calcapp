@@ -280,24 +280,26 @@
 
     // Sets click handlers for js_calc_btn buttons
     function setInputBtnListeners() {
-
+      var btns = calc.getElementsByClassName('js_calc_btn'),
+          i;
       // loop over all buttons
-      for(var btn of calc.getElementsByClassName('js_calc_btn')) {
+      for(i=0; i<=btns.length; i++) {
 
         // add click event handler
-        btn.addEventListener('click', inputBtnClickHandler);
+        btns[i].addEventListener('click', inputBtnClickHandler);
       }
     }
 
 
     // Sets click handler for js_calc_history_btn
     function setHistoryBtnListener() {
-
+      var btns = calc.getElementsByClassName('js_calc_history_btn'),
+          i;
       // loop over all buttons
-      for(var btn of calc.getElementsByClassName('js_calc_history_btn')) {
+      for(i=0; i<=btns.length; i++) {
 
         // add click event handler
-        btn.addEventListener('click', historyBtnClickHandler);
+        btns[i].addEventListener('click', historyBtnClickHandler);
       }
     }
 
