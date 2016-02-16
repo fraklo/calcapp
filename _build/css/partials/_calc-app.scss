@@ -1,6 +1,10 @@
 .calc {
-
+  display: inline-block;
+  height: 100%;
+  position: relative;
+  width: 100%;
 }
+
 .calc-btn {
   @extend .btn;
   @include btn-base(#fff);
@@ -43,16 +47,16 @@
   @extend .text-right;
   background-color: lighten($light, 10%);
   height: 100%;
-  left: 2rem;
+  left: 0;
   max-height: 0;
   opacity: 0;
   overflow-x: hidden;
   overflow-y: auto;
   position: absolute;
   padding: 2rem;
-  right: 2rem;
   top: 0;
   transition: all .35s;
+  width: 100%;
   z-index: -1;
   &:empty + .calc-history-btn {
     display: none;
@@ -83,7 +87,7 @@
   display: inline-block;
   font-size: 5rem;
   line-height: 12.5vh;
-  left: 4rem;
+  left: 0;
   position: absolute;
   width: 4rem;
   top: 0;
