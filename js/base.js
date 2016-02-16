@@ -146,7 +146,7 @@
       currentResult = currentOperation[0];
 
       // Iterate through operations to calculate out
-      for(var i=1; i<=currentOperation.length; i++) {
+      for(var i=1; i <= currentOperation.length; i++) {
         if(isNaN(currentOperation[i]) &&
             !isNaN(currentOperation[i+1])) {
 
@@ -281,29 +281,29 @@
     // Sets click handlers for js_calc_btn buttons
     function setInputBtnListeners() {
       var btns = calc.getElementsByClassName('js_calc_btn'),
+          btn,
           i;
       // loop over all buttons
-      for(i=0; i<=btns.length; i++) {
+      for(i=0; i < btns.length; i++) {
 
+        btn = btns[i];
         // add click event handler
-        btns[i].addEventListener('click', inputBtnClickHandler);
+        btn.addEventListener('click', inputBtnClickHandler);
       }
     }
 
 
     // Sets click handler for js_calc_history_btn
     function setHistoryBtnListener() {
-      var btns = calc.getElementsByClassName('js_calc_history_btn'),
-          i;
-      // loop over all buttons
-      for(i=0; i<=btns.length; i++) {
+      var historyBtn = calc.getElementsByClassName('js_calc_history_btn')[0];
 
-        // add click event handler
-        btns[i].addEventListener('click', historyBtnClickHandler);
-      }
+      // add click event handler
+      historyBtn.addEventListener('click', historyBtnClickHandler);
     }
 
 
+    // Sets given class on el if it doesn't have it
+    // if it has it, it removes the given class
     function toggleClass(el, toggleClass) {
       if(el.className.indexOf(toggleClass) < 0) {
         el.className = el.className+" "+toggleClass;
